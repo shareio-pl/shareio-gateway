@@ -5,8 +5,6 @@ import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.util.Date;
-
 @Component
 public class JWTUtil {
 
@@ -14,16 +12,12 @@ public class JWTUtil {
     private String secret;
 
     public Claims getALlClaims(String token) {
-        return Jwts.parserBuilder().setSigningKey(secret).build().parseClaimsJws(token).getBody();
+        return Jwts.parserBuilder().setSigningKey(secret.getBytes()).build().parseClaimsJws(token).getBody();
     }
 
 //    private boolean isTokenExpired(String token ) {
 //        return this.getALlClaims(token).getExpiration().before(new Date());
 //    }
 //
-    public boolean isValid(String token) {
-        Claims claims = getALlClaims(token);
-        return (boolean) claims.get("correct");
-    }
 
 }
