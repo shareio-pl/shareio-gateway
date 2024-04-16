@@ -20,11 +20,11 @@ public class GatewayConfig {
                 .route(r -> r.path("/user/**")
                         .and().method("GET")
                         .filters(f-> f.filter(authFilter).rewritePath("/user/(?<userId>.*)","/user?id=${userId}"))
-                        .uri("http://localhost:8084"))
+                        .uri("lb://BACKEND"))
                 .route(r -> r.path("/login")
                         .and().method("POST")
                         .filters(f-> f.rewritePath("/login","/jwt/generate"))
-                        .uri("http://localhost:8085"))
+                        .uri("lb://JWT"))
                 .build();
     }
 
