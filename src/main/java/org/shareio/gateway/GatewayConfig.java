@@ -12,6 +12,12 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 public class GatewayConfig {
 
+//    @Value("${backend.address}")
+//    private String backendAddress;
+//
+//    @Value("${jwt.address}")
+//    private String jwtAddress;
+
     @Autowired
     AuthFilter authFilter;
     @Bean
@@ -20,11 +26,11 @@ public class GatewayConfig {
                 .route(r -> r.path("/user/**")
                         .and().method("GET")
                         .filters(f-> f.filter(authFilter).rewritePath("/user/(?<userId>.*)","/user?id=${userId}"))
-                        .uri("lb://BACKEND"))
+                        .uri(System.getenv("BACKEND_ADDRESS")))
                 .route(r -> r.path("/login")
                         .and().method("POST")
                         .filters(f-> f.rewritePath("/login","/jwt/generate"))
-                        .uri("lb://JWT"))
+                        .uri(System.getenv("BACKEND_ADDRESS")))
                 .build();
     }
 
