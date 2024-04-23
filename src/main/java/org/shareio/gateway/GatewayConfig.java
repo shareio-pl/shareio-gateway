@@ -6,7 +6,10 @@ import org.shareio.gateway.config.AuthFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.gateway.route.Route;
 import org.springframework.cloud.gateway.route.RouteLocator;
+import org.springframework.cloud.gateway.route.builder.Buildable;
+import org.springframework.cloud.gateway.route.builder.PredicateSpec;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
 
@@ -16,42 +19,33 @@ public class GatewayConfig {
     @Autowired
     AuthFilter authFilter;
 
+    private Buildable<Route> openRoute(PredicateSpec r, String path, String method, String originalPath, String rewrittenPath, String uri){
+        return r.path(path)
+                .and().method(method)
+                .filters(f -> f.rewritePath(originalPath, rewrittenPath))
+                .uri(uri);
+    }
 
+    private Buildable<Route> authorizedRoute(PredicateSpec r, String path, String method, String originalPath, String rewrittenPath, String uri){
+        return r.path(path)
+                .and().method(method)
+                .filters(f -> f.rewritePath(originalPath, rewrittenPath))
+                .uri(uri);
+    }
     @Bean
     public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
         EnvGetter urls = new EnvGetter();
 
         return builder.routes()
-                .route(r -> r.path("/login")
-                        .and().method("POST")
-                        .filters(f -> f.rewritePath("/login", "/jwt/generate"))
-                        .uri(urls.jwt))
+                .route(r -> openRoute(r, "/login", "POST" , "/login","/jwt/generate", urls.jwt) )
                 // USER
-                .route(r -> r.path("/user/get/**")
-                        .and().method("GET")
-                        .filters(f -> f.filter(authFilter).rewritePath("/user/get/(?<id>.*)", "/user/get/${id}"))
-                        .uri(urls.backend))
-                .route(r -> r.path("/user/add")
-                        .and().method("POST")
-                        .filters(f -> f.filter(authFilter))
-                        .uri(urls.backend))
-                .route(r -> r.path("/user/modify/**")
-                        .and().method("PUT")
-                        .filters(f -> f.filter(authFilter).rewritePath("/user/modify/(?<id>.*)", "/user/modify/${id}"))
-                        .uri(urls.backend))
-                .route(r -> r.path("/user/delete/**")
-                        .and().method("DELETE")
-                        .filters(f -> f.filter(authFilter).rewritePath("/user/delete/(?<id>.*)", "/user/delete/${id}"))
-                        .uri(urls.backend))
+                .route(r -> openRoute(r, "/user/get/**",    "GET",      "/user/get/(?<id>.*)",      "/user/get/${id}",      urls.backend))
+                .route(r -> openRoute(r, "/user/add",       "POST",     "/user/add",                "/user/add",            urls.backend))
+                .route(r -> openRoute(r, "/user/modify/**", "PUT",      "/user/modify/(?<id>.*)",   "/user/modify/${id}",   urls.backend))
+                .route(r -> openRoute(r, "/user/delete/**", "DELETE",   "/user/delete/(?<id>.*)",   "/user/delete/${id}",   urls.backend))
                 // OFFER
-                .route(r -> r.path("/offer/get/**")
-                        .and().method("GET")
-                        .filters(f -> f.filter(authFilter).rewritePath("/offer/get/(?<id>.*)", "/offer/get/${id}"))
-                        .uri(urls.backend))
-                .route(r -> r.path("/offer/getConditions")
-                        .and().method("GET")
-                        .filters(f -> f.filter(authFilter))
-                        .uri(urls.backend))
+                .route(r -> openRoute(r, "/offer/get/**",   "GET",      "/offer/get/(?<id>.*)",     "/offer/get/${id}",     urls.backend))
+                .route(r -> openRoute(r, "/offer/getConditions","GET",      "/offer/getConditions",     "/offer/getConditions",     urls.backend))
 //              .route(r -> r.path("/offer/search")
 //                        .and().method("GET")
 //                        .filters(f -> f.filter(authFilter))
