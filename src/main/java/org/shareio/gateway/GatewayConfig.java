@@ -76,6 +76,8 @@ public class GatewayConfig {
                         .filters(f -> f.filter(authFilter).rewritePath("/offer/delete/(?<id>.*)", "/offer/delete/${id}"))
                         .uri(urls.backend))
                 // ADDRESS
+                .route(r -> openRoute(r, "/address/get/**",    "GET",      "/address/get/(?<id>.*)",      "/address/get/${id}",      urls.backend))
+                .route(r -> openRoute(r, "/address/location/get/**",    "GET",      "/address/location/get/(?<id>.*)",      "/address/location/get/${id}",      urls.backend))
                 .route(r -> r.path("/address/get/**")
                         .and().method("GET")
                         .filters(f -> f.filter(authFilter).rewritePath("/address/get/(?<id>.*)", "/address/get/${id}"))
