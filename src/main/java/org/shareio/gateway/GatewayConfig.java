@@ -52,6 +52,7 @@ public class GatewayConfig {
                 .route(r -> openRoute(r, "/debug/createUser", "GET", "/debug/createUser", "/debug/createUser", urls.backend))
                 .route(r -> openRoute(r, "/debug/createOffers/**", "GET", "/debug/createOffers/?<id>.*", "/debug/createOffers/${id}", urls.backend))
                 .route(r -> openRoute(r, "/debug/getOfferIds", "GET", "/debug/getOfferIds", "/debug/getOfferIds", urls.backend))
+                .route(r -> openRoute(r, "/debug/getOffersByName/**", "GET", "/debug/getOffersByName/?<name>.*", "/debug/getOffersByName/${name}", urls.backend))
                 // USER
                 .route(r -> openRoute(r, "/user/get/**", "GET", "/user/get/(?<id>.*)", "/user/get/${id}", urls.backend))
                 .route(r -> openRoute(r, "/user/add", "POST", "/user/add", "/user/add", urls.backend))
