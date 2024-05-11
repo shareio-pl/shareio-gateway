@@ -62,6 +62,7 @@ public class GatewayConfig {
                 .route(r -> openRoute(r, "/offer/getConditions", "GET", "/offer/getConditions", "/offer/getConditions", urls.backend))
                 .route(r -> openRoute(r, "/offer/getOffersByUser/**", "GET", "/offer/getOffersByUser/(?<id>.*)", "/offer/getOffersByUser/${id}", urls.backend))
                 .route(r -> openRoute(r, "/offer/getOffersByName/**", "GET", "/offer/getOffersByName/?<name>.*", "/offer/getOffersByName/${name}", urls.backend))
+
                 // TODO: clean this up
 //              .route(r -> r.path("/offer/search")
 //                        .and().method("GET")
