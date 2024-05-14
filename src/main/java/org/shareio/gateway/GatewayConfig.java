@@ -61,6 +61,8 @@ public class GatewayConfig {
                 .route(r -> openRoute(r, "/offer/get/**",   "GET",      "/offer/get/(?<id>.*)",     "/offer/get/${id}",     urls.backend))
                 .route(r -> openRoute(r, "/offer/getClosestOfferForUser/**","GET",      "/offer/getClosestOfferForUser/(?<userId>.*)",     "/offer/getClosestOfferForUser/${userId}",     urls.backend))
                 .route(r -> openRoute(r, "/offer/getConditions","GET",      "/offer/getConditions",     "/offer/getConditions",     urls.backend))
+                .route(r -> openRoute(r, "/offer/getCategories", "GET", "/offer/getCategories", "/offer/getCategories", urls.backend))
+                .route(r -> openRoute(r, "/offer/getOffersByUser/**", "GET", "/offer/getOffersByUser/(?<id>.*)", "/offer/getOffersByUser/${id}", urls.backend))
                 .route(r -> openRoute(r, "/offer/getOffersByName/**", "GET","/offer/getOffersByName/?<name>.*", "/offer/getOffersByName/${name}", urls.backend))
                 .route(r -> openRoute(r, "/offer/add","POST",      "/offer/add",     "/offer/add",     urls.backend))
                 .route(r -> openRoute(r, "/offer/modify/**","PUT",      "/offer/modify/(?<id>.*)",     "/offer/modify/${id}",     urls.backend))
