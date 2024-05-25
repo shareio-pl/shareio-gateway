@@ -55,7 +55,7 @@ public class GatewayConfig {
                 // USER
                 .route(r -> openRoute(r, "/user/get/**", "GET", "/user/get/(?<id>.*)", "/user/get/${id}", urls.backend))
                 .route(r -> openRoute(r, "/user/add", "POST", "/user/add", "/user/add", urls.backend))
-                .route(r -> openRoute(r, "/user/modify/**", "PUT", "/user/modify/(?<id>.*)", "/user/modify/${id}", urls.backend))
+                .route(r -> authorizedRoute(r, "/user/modify/**", "PUT", "/user/modify/(?<userId>.*)", "/user/modify/${userId}", urls.backend))
                 .route(r -> openRoute(r, "/user/delete/**", "DELETE", "/user/delete/(?<id>.*)", "/user/delete/${id}", urls.backend))
                 // OFFER
                 .route(r -> openRoute(r, "/offer/get/**",   "GET",      "/offer/get/(?<id>.*)",     "/offer/get/${id}",     urls.backend))
@@ -66,12 +66,12 @@ public class GatewayConfig {
                 .route(r -> openRoute(r, "/offer/getOffersByName/**", "GET","/offer/getOffersByName/?<name>.*", "/offer/getOffersByName/${name}", urls.backend))
                 .route(r -> openRoute(r, "/offer/add","POST",      "/offer/add",     "/offer/add",     urls.backend))
                 .route(r -> openRoute(r, "/offer/modify/**","PUT",      "/offer/modify/(?<id>.*)",     "/offer/modify/${id}",     urls.backend))
-                .route(r -> openRoute(r, "/offer/reserve/**","PUT",      "/offer/reserve/(?<id>.*)",     "/offer/reserve/${id}",     urls.backend))
+                .route(r -> authorizedRoute(r, "/offer/reserve/**","POST",      "/offer/reserve/(?<id>.*)",     "/offer/reserve/${id}",     urls.backend))
                 .route(r -> openRoute(r, "/offer/delete/**","DELETE",      "/offer/delete/(?<id>.*)",     "/offer/delete/${id}",     urls.backend))
                 // ADDRESS
                 .route(r -> openRoute(r, "/address/get/**",   "GET",      "/address/get/(?<id>.*)",     "/address/get/${id}",     urls.backend))
                 .route(r -> openRoute(r, "/address/location/get/**",   "GET",      "/address/location/get/(?<id>.*)",     "/address/location/get/${id}",     urls.backend))
-                .route(r -> openRoute(r, "/address/modify/**",   "PUT",      "/address/modify/(?<id>.*)",     "/address/modify/${id}",     urls.backend))
+                .route(r -> authorizedRoute(r, "/address/modify/**",   "PUT",      "/address/modify/(?<id>.*)",     "/address/modify/${id}",     urls.backend))
                 .build();
     }
 

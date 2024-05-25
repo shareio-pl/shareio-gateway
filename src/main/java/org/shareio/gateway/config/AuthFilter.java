@@ -1,6 +1,7 @@
 package org.shareio.gateway.config;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import org.shareio.gateway.config.util.JWTUtil;
 import org.shareio.gateway.config.validator.RouteValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,23 +29,26 @@ public class AuthFilter implements GatewayFilter {
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-        ServerHttpRequest request = exchange.getRequest();
+        try {
+            ServerHttpRequest request = exchange.getRequest();
 
-        if (routerValidator.isSecured.test(request)) {
-            if (this.isAuthMissing(request))
-                return this.onError(exchange);
+            if (routerValidator.isSecured.test(request)) {
+                if (this.isAuthMissing(request))
+                    return this.onError(exchange);
 
-            String token = this.getAuthHeader(request);
-            if (Objects.isNull(token))
-                return this.onError(exchange);
+                String token = this.getAuthHeader(request);
+                if (Objects.isNull(token))
+                    return this.onError(exchange);
 
-            token = token.substring(7);
+                token = token.substring(7);
 
-
-
-            this.populateRequestWithHeaders(exchange, token);
+                this.populateRequestWithHeaders(exchange, token);
+            }
+            return chain.filter(exchange);
         }
-        return chain.filter(exchange);
+        catch(ExpiredJwtException e){
+            return this.onError(exchange);
+        }
     }
 
 
@@ -57,7 +61,7 @@ public class AuthFilter implements GatewayFilter {
     }
 
     private String getAuthHeader(ServerHttpRequest request) {
-        return request.getHeaders().getOrEmpty("Authorization").get(0);
+        return request.getHeaders().getOrEmpty("Authorization").getFirst();
     }
 
     private boolean isAuthMissing(ServerHttpRequest request) {
