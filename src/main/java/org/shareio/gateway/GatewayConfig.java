@@ -3,6 +3,7 @@ package org.shareio.gateway;
 
 import lombok.Getter;
 import org.shareio.gateway.config.AuthFilter;
+import org.shareio.gateway.config.TokenFilter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.gateway.route.Route;
@@ -15,17 +16,20 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 public class GatewayConfig {
 
+    final TokenFilter tokenFilter;
+
     final
     AuthFilter authFilter;
 
-    public GatewayConfig(AuthFilter authFilter) {
+    public GatewayConfig(AuthFilter authFilter, TokenFilter tokenFilter) {
         this.authFilter = authFilter;
+        this.tokenFilter = tokenFilter;
     }
 
     private Buildable<Route> openRoute(PredicateSpec r, String path, String method, String originalPath, String rewrittenPath, String uri) {
         return r.path(path)
                 .and().method(method)
-                .filters(f -> f.rewritePath(originalPath, rewrittenPath))
+                .filters(f -> f.filter(tokenFilter).rewritePath(originalPath, rewrittenPath))
                 .uri(uri);
     }
 
