@@ -54,24 +54,36 @@ public class GatewayConfig {
                 .route(r -> openRoute(r, "/debug/getOfferIds", "GET", "/debug/getOfferIds", "/debug/getOfferIds", urls.backend))
                 // USER
                 .route(r -> openRoute(r, "/user/get/**", "GET", "/user/get/(?<id>.*)", "/user/get/${id}", urls.backend))
+                .route(r -> openRoute(r, "/user/getAll", "GET", "/user/getAll", "/user/getAll", urls.backend))
                 .route(r -> openRoute(r, "/user/add", "POST", "/user/add", "/user/add", urls.backend))
                 .route(r -> authorizedRoute(r, "/user/modify/**", "PUT", "/user/modify/(?<userId>.*)", "/user/modify/${userId}", urls.backend))
+                .route(r -> authorizedRoute(r, "/user/changePassword/**", "PUT", "/user/changePassword/(?<userId>.*)", "/user/changePassword/${userId}", urls.backend))
                 .route(r -> openRoute(r, "/user/delete/**", "DELETE", "/user/delete/(?<id>.*)", "/user/delete/${id}", urls.backend))
                 // OFFER
                 .route(r -> openRoute(r, "/offer/get/**",   "GET",      "/offer/get/(?<id>.*)",     "/offer/get/${id}",     urls.backend))
                 .route(r -> openRoute(r, "/offer/getClosestOfferForUser/**","GET",      "/offer/getClosestOfferForUser/(?<userId>.*)",     "/offer/getClosestOfferForUser/${userId}",     urls.backend))
-                .route(r -> openRoute(r, "/offer/getConditions","GET",      "/offer/getConditions",     "/offer/getConditions",     urls.backend))
-                .route(r -> openRoute(r, "/offer/getCategories", "GET", "/offer/getCategories", "/offer/getCategories", urls.backend))
-                .route(r -> openRoute(r, "/offer/getOffersByUser/**", "GET", "/offer/getOffersByUser/(?<id>.*)", "/offer/getOffersByUser/${id}", urls.backend))
+                .route(r -> openRoute(r, "/offer/getCreatedOffersByUser/**","GET",      "/offer/getCreatedOffersByUser/(?<userId>.*)",     "/offer/getCreatedOffersByUser/${userId}",     urls.backend))
+                .route(r -> openRoute(r, "/offer/getReservedOffersByUser/**","GET",      "/offer/getReservedOffersByUser/(?<userId>.*)",     "/offer/getReservedOffersByUser/${userId}",     urls.backend))
+                .route(r -> openRoute(r, "/offer/getFinishedOffersByUser/**","GET",      "/offer/getFinishedOffersByUser/(?<userId>.*)",     "/offer/getFinishedOffersByUser/${userId}",     urls.backend))
                 .route(r -> openRoute(r, "/offer/getOffersByName/**", "GET","/offer/getOffersByName/?<name>.*", "/offer/getOffersByName/${name}", urls.backend))
+                .route(r -> openRoute(r, "/offer/getCategories", "GET", "/offer/getCategories", "/offer/getCategories", urls.backend))
+                .route(r -> openRoute(r, "/offer/getConditions","GET",      "/offer/getConditions",     "/offer/getConditions",     urls.backend))
+                .route(r -> openRoute(r, "/offer/search", "GET","/offer/search", "/offer/search", urls.backend))
+                .route(r -> openRoute(r, "/offer/generateDescription", "GET","/offer/generateDescription", "/offer/generateDescription", urls.backend))
+                .route(r -> openRoute(r, "/offer/getNewest", "GET","/offer/getNewest", "/offer/getNewest", urls.backend))
+                .route(r -> openRoute(r, "/offer/getAllOffers", "GET","/offer/getAllOffers", "/offer/getAllOffers", urls.backend))
+                .route(r -> openRoute(r, "/offer/getScore/**", "GET","/offer/getScore/(?<userId>.*)", "/offer/getScore/${userId}", urls.backend))
+                .route(r -> openRoute(r, "/offer/getTopScoreUserList", "GET","/offer/getTopScoreUserList", "/offer/getTopScoreUserList", urls.backend))
                 .route(r -> openRoute(r, "/offer/add","POST",      "/offer/add",     "/offer/add",     urls.backend))
+                .route(r -> authorizedRoute(r, "/offer/reserve","POST",      "/offer/reserve",     "/offer/reserve",     urls.backend))
+                .route(r -> openRoute(r, "/offer/addReview","POST",      "/offer/addReview",     "/offer/addReview",     urls.backend))
                 .route(r -> openRoute(r, "/offer/modify/**","PUT",      "/offer/modify/(?<id>.*)",     "/offer/modify/${id}",     urls.backend))
-                .route(r -> authorizedRoute(r, "/offer/reserve/**","POST",      "/offer/reserve/(?<id>.*)",     "/offer/reserve/${id}",     urls.backend))
                 .route(r -> openRoute(r, "/offer/delete/**","DELETE",      "/offer/delete/(?<id>.*)",     "/offer/delete/${id}",     urls.backend))
                 // ADDRESS
                 .route(r -> openRoute(r, "/address/get/**",   "GET",      "/address/get/(?<id>.*)",     "/address/get/${id}",     urls.backend))
                 .route(r -> openRoute(r, "/address/location/get/**",   "GET",      "/address/location/get/(?<id>.*)",     "/address/location/get/${id}",     urls.backend))
-                .route(r -> authorizedRoute(r, "/address/modify/**",   "PUT",      "/address/modify/(?<id>.*)",     "/address/modify/${id}",     urls.backend))
+                // EMAIL
+                .route(r -> authorizedRoute(r,"/email/send","POST",      "/email/send",     "/email/send",     urls.backend))
                 .build();
     }
 
