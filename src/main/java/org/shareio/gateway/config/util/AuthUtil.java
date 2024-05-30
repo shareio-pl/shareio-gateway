@@ -28,7 +28,7 @@ public class AuthUtil {
         getTokenJsonObject.put("password", password);
         HttpEntity<String> request =
                 new HttpEntity<>(getTokenJsonObject.toString(), headers);
-        ResponseEntity<String> response = restTemplate.exchange("http://localhost:8085/jwt/generate", HttpMethod.POST,request, String.class);
+        ResponseEntity<String> response = restTemplate.exchange("http://shareio.local:8085/jwt/generate", HttpMethod.POST,request, String.class);
         System.out.println("token:"+response.getBody());
         return response.getBody();
     }
