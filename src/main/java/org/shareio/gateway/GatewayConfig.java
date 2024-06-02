@@ -80,6 +80,8 @@ public class GatewayConfig {
                 .route(r -> openRoute(r, "/offer/getTopScoreUserList", "GET","/offer/getTopScoreUserList", "/offer/getTopScoreUserList", urls.backend))
                 .route(r -> openRoute(r, "/offer/add","POST",      "/offer/add",     "/offer/add",     urls.backend))
                 .route(r -> authorizedRoute(r, "/offer/reserve","POST",      "/offer/reserve",     "/offer/reserve",     urls.backend))
+                .route(r -> authorizedRoute(r, "/offer/cancel","POST",      "/offer/cancel",     "/offer/cancel",     urls.backend))
+                .route(r -> authorizedRoute(r, "/offer/finish","POST",      "/offer/finish",     "/offer/finish",     urls.backend))
                 .route(r -> openRoute(r, "/offer/addReview","POST",      "/offer/addReview",     "/offer/addReview",     urls.backend))
                 .route(r -> openRoute(r, "/offer/modify/**","PUT",      "/offer/modify/(?<id>.*)",     "/offer/modify/${id}",     urls.backend))
                 .route(r -> openRoute(r, "/offer/delete/**","DELETE",      "/offer/delete/(?<id>.*)",     "/offer/delete/${id}",     urls.backend))
