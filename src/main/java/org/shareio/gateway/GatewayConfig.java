@@ -78,6 +78,7 @@ public class GatewayConfig {
                 .route(r -> openRoute(r, "/offer/getAllOffers", "GET","/offer/getAllOffers", "/offer/getAllOffers", urls.backend))
                 .route(r -> openRoute(r, "/offer/getScore/**", "GET","/offer/getScore/(?<userId>.*)", "/offer/getScore/${userId}", urls.backend))
                 .route(r -> openRoute(r, "/offer/getTopScoreUserList", "GET","/offer/getTopScoreUserList", "/offer/getTopScoreUserList", urls.backend))
+                .route(r -> openRoute(r, "/offer/getReservedOffersByReciever/**", "GET","/offer/getReservedOffersByReciever/(?<userId>.*)", "/offer/getReservedOffersByReciever/${userId}", urls.backend))
                 .route(r -> openRoute(r, "/offer/add","POST",      "/offer/add",     "/offer/add",     urls.backend))
                 .route(r -> authorizedRoute(r, "/offer/reserve","POST",      "/offer/reserve",     "/offer/reserve",     urls.backend))
                 .route(r -> authorizedRoute(r, "/offer/cancel","POST",      "/offer/cancel",     "/offer/cancel",     urls.backend))
